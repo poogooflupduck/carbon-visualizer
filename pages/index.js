@@ -1,4 +1,12 @@
-import { Header, HeaderName, Grid, Row, Column } from "carbon-components-react";
+import {
+  Header,
+  HeaderName,
+  Grid,
+  Row,
+  Column,
+  UnorderedList,
+  ListItem,
+} from "carbon-components-react";
 import visualizer from "@/visualizer";
 import SwrChart from "@/components/SwrChart";
 
@@ -10,17 +18,30 @@ export default function Home({ visualizer }) {
           {visualizer.name}
         </HeaderName>
       </Header>
-      <div style={{ marginTop: "4em" }}>
+      <div>
         <Grid fullWidth style={{ backgroundColor: "" }}>
-          <Row>
-            <Column sm={12} md={12} lg={4}>
+          <Row
+            style={{ paddingTop: "6em", paddingBottom: "4em", height: "100vh" }}
+          >
+            <Column sm={12} md={12} lg={{ span: 4 }}>
               <h1>{visualizer.name}</h1>
-              <p>{visualizer.description}</p>
+              <p style={{ marginTop: "1em" }}>{visualizer.description}</p>
+              <UnorderedList>
+                {visualizer.highlights.map((highlight) => (
+                  <ListItem key={highlight}>{highlight}</ListItem>
+                ))}
+              </UnorderedList>
+            </Column>
+            <Column sm={12} md={12} lg={{ span: 4, offset: 4 }}>
+              {visualizer.mainVisual && <SwrChart {...visualizer.mainVisual} />}
             </Column>
           </Row>
           {visualizer.sections.map((section) => {
             return (
-              <Row key={section.heading}>
+              <Row
+                key={section.heading}
+                style={{ borderTop: "1px solid white", paddingTop: "2em" }}
+              >
                 <Column sm={12} md={12} lg={4}>
                   <h2>{section.heading}</h2>
                   <p>{section.description}</p>

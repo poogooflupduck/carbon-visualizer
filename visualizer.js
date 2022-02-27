@@ -1,8 +1,40 @@
 export default {
-  category: "Tracer",
+  category: "Tracer Analytics",
   name: "TCR Distributions",
+  highlights: [
+    "Out of the initial allocation of funds in the treasuryDAO, how much (in TCR) has been distributed per day to the users?",
+  ],
   description:
     "Tracer is a trustless protocol for financial derivatives. Tracer DAO owns and governs the smart contracts powering Tracer. Governors need to stake TCR (Tracer Token) in order to vote.",
+  // mainVisual: {
+  //   type: "ScatterChart",
+  //   endpoint:
+  //     "https://api.flipsidecrypto.com/api/v2/queries/0cc2e53a-8e99-4855-88f2-94aefb41592d/data/latest",
+  //   options: {
+  //     title: "Scatter (time series)",
+  //     dataMapping: {
+  //       // date: "DATE",
+  //       // value: "AMOUNT",
+  //       group: "LABEL",
+  //     },
+  //     zoomBar: {
+  //       top: {
+  //         enabled: true,
+  //       },
+  //     },
+  //     axes: {
+  //       bottom: {
+  //         title: "2019 Annual Sales Figures",
+  //         scaleType: "time",
+  //         mapsTo: "DATE",
+  //       },
+  //       left: {
+  //         mapsTo: "AMOUNT",
+  //       },
+  //     },
+  //     height: "400px",
+  //   },
+  // },
   sections: [
     {
       heading: "TCR holdings",
@@ -32,6 +64,21 @@ export default {
             top: {
               enabled: true,
             },
+          },
+          toolbar: {
+            enabled: true,
+            numberOfIcons: 6,
+            controls: [
+              {
+                type: "Zoom in",
+              },
+              {
+                type: "Zoom out",
+              },
+              {
+                type: "Reset zoom",
+              },
+            ],
           },
           height: "400px",
           // curve: "curveNatural",
