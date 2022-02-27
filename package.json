@@ -11,6 +11,7 @@
     "@carbon/charts": "^0.54.12",
     "@carbon/charts-react": "^0.54.12",
     "@carbon/icons-react": "^10.45.0",
+    "@carbon/themes": "^10.52.0",
     "carbon-components": "^10.52.0",
     "carbon-components-react": "^7.52.0",
     "carbon-icons": "^7.0.7",
@@ -18,6 +19,7 @@
     "next": "12.0.10",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "sass": "^1.49.9",
     "swr": "^1.2.1"
   },
   "devDependencies": {
