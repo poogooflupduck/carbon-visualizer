@@ -134,7 +134,7 @@ Instead, 'claim' transactions are coming out of The 100 Vesting contract and 52 
               },
             ],
           },
-          height: "400px",
+          height: "60vh",
           sql: `
 WITH accounts as (
   SELECT USER_ADDRESS, BALANCE, BALANCE_DATE FROM ethereum.erc20_balances

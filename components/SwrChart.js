@@ -13,8 +13,8 @@ const SwrChart = (props) => {
 
   const [sqlOpen, setSqlOpen] = useState(false);
 
-  if (isLoading) return <AreaSkeletonChart />;
-  if (isError) return <AreaSkeletonChart />;
+  if (isLoading) return <AreaSkeletonChart height={props.options.height} />;
+  if (isError) return <AreaSkeletonChart height={props.options.height} />;
   console.log(data);
   return (
     <>

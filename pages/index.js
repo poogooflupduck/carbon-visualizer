@@ -1,11 +1,10 @@
+import Head from "next/head";
 import {
   Header,
   HeaderName,
   Grid,
   Row,
   Column,
-  UnorderedList,
-  ListItem,
   Tile,
   ClickableTile,
 } from "carbon-components-react";
@@ -15,6 +14,9 @@ import SwrChart from "@/components/SwrChart";
 export default function Home({ visualizer }) {
   return (
     <>
+      <Head>
+        <title>{visualizer.name + " - " + visualizer.category}</title>
+      </Head>
       <Header aria-label={visualizer.category}>
         <HeaderName href="#" prefix={visualizer.category}>
           {visualizer.name}

@@ -1,6 +1,6 @@
 import { AreaChart } from "@carbon/charts-react";
 
-const AreaSkeletonChart = () => {
+const AreaSkeletonChart = (props) => {
   return (
     <AreaChart
       data={[
@@ -61,7 +61,7 @@ const AreaSkeletonChart = () => {
         data: {
           loading: true,
         },
-        height: "90vh",
+        height: props.height || "60vh",
       }}
     ></AreaChart>
   );
