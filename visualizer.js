@@ -3,11 +3,12 @@ export default {
   name: "TCR Distributions",
   description: `Tracer is a trustless protocol for creating and trading financial derivatives. Using TCR, Tracer's governance token, users can vote and control the smart contracts powering Tracer. 
 
-In this dashboard, we'll explore the distribution of Tracer's governance token to users as rewards. Users can participate Tracer's Perpetual Pools, stake the Pool tokens and earn TCR rewards.`,
+In this dashboard, we'll explore the distribution of Tracer's governance token to users as rewards. 
+By participating in Tracer's Perpetual Pools, users can earn TCR rewards. TCR is also distributed to governors, investors, and teams via vesting contracts.`,
   mainVisual: {
     type: "ScatterChart",
     endpoint:
-      "https://api.flipsidecrypto.com/api/v2/queries/0cc2e53a-8e99-4855-88f2-94aefb41592d/data/latest",
+      "https://api.flipsidecrypto.com/api/v2/queries/f66ede63-9c42-49c9-958c-ae5a34ad86ed/data/latest",
     dataMapping: {
       date: "DATE",
       value: "AMOUNT",
@@ -16,7 +17,7 @@ In this dashboard, we'll explore the distribution of Tracer's governance token t
     options: {
       axes: {
         bottom: {
-          title: "2019 Annual Sales Figures",
+          title: "TCR claim transactions over time",
           mapsTo: "date",
           scaleType: "time",
         },
@@ -25,6 +26,38 @@ In this dashboard, we'll explore the distribution of Tracer's governance token t
           scaleType: "linear",
         },
       },
+      sql: `
+SELECT TX_ID, ORIGIN_ADDRESS, AMOUNT, ORIGIN_FUNCTION_NAME AS LABEL, date_trunc('day', BLOCK_TIMESTAMP) as DATE FROM ethereum.udm_events
+WHERE CONTRACT_ADDRESS = '0x9c4a4204b79dd291d6b6571c5be8bbcd0622f050'
+AND ORIGIN_FUNCTION_NAME in ('claim', 'claimTokens')
+      `,
+      toolbar: {
+        enabled: true,
+        numberOfIcons: 6,
+        controls: [
+          {
+            type: "Zoom in",
+          },
+          {
+            type: "Zoom out",
+          },
+          {
+            type: "Reset zoom",
+          },
+          {
+            type: "Make fullscreen",
+          },
+          {
+            type: "Export as CSV",
+          },
+          {
+            type: "Export as PNG",
+          },
+          {
+            type: "Export as JPG",
+          },
+        ],
+      },
     },
   },
   sections: [
@@ -32,7 +65,7 @@ In this dashboard, we'll explore the distribution of Tracer's governance token t
       heading: "Key questions",
       content: [
         {
-          body: "How much of the initial TCR (allocated to the DAO) has been distributed to users?",
+          body: "How much of the TCR supply has been distributed to users?",
         },
         {
           body: "How much TCR is distributed per day to users?",
@@ -41,8 +74,12 @@ In this dashboard, we'll explore the distribution of Tracer's governance token t
     },
     {
       heading: "TCR holdings",
-      description:
-        "The TCR token has a maximum supply of 1,000,000,000. It was initially distributed on the 8th September, 2021. Tracer DAO was allocated 64.04% of the supply.",
+      description: `The TCR token has a maximum supply of 1,000,000,000.
+It was initially distributed on the 8th September, 2021.
+      
+The Tracer DAO treasury was allocated 64.04% of the supply, but TCR rewards aren't being dispensed from this contract currently.
+      
+Instead, 'claim' transactions are coming out of The 100 Vesting contract and 52 Governors Vesting contract.`,
       visual: {
         type: "StackedAreaChart",
         endpoint:
@@ -55,7 +92,8 @@ In this dashboard, we'll explore the distribution of Tracer's governance token t
         options: {
           axes: {
             bottom: {
-              title: "2019 Annual Sales Figures",
+              title:
+                "Amount of TCR holdings in key contracts over the last 4 months",
               mapsTo: "date",
               scaleType: "time",
             },
@@ -82,42 +120,67 @@ In this dashboard, we'll explore the distribution of Tracer's governance token t
               {
                 type: "Reset zoom",
               },
+              {
+                type: "Make fullscreen",
+              },
+              {
+                type: "Export as CSV",
+              },
+              {
+                type: "Export as PNG",
+              },
+              {
+                type: "Export as JPG",
+              },
             ],
           },
           height: "400px",
-          // curve: "curveNatural",
-          toolbar: {
-            enabled: true,
-            numberOfIcons: 6,
-            controls: [
-              {
-                type: "Zoom in",
-              },
-              {
-                type: "Zoom out",
-              },
-              {
-                type: "Reset zoom",
-              },
-            ],
-          },
           sql: `
-                  SELECT USER_ADDRESS, 'DAO' AS LABEL, BALANCE, BALANCE_DATE as DATE
-                  FROM ethereum.erc20_balances
-                  WHERE user_address  = '0xa84918f3280d488eb3369cb713ec53ce386b6cba'
-                  AND CONTRACT_ADDRESS = '0x9c4a4204b79dd291d6b6571c5be8bbcd0622f050'
-                  AND DATE >= CURRENT_DATE - interval'6 months'
-                  ORDER BY DATE DESC`,
+WITH accounts as (
+  SELECT USER_ADDRESS, BALANCE, BALANCE_DATE FROM ethereum.erc20_balances
+  WHERE user_address IN (
+    '0xa84918f3280d488eb3369cb713ec53ce386b6cba', 
+    '0x1C315Ae20c758d8Dc9B56415566c82F9085478a8', 
+    '0xa6a006C12338cdcDbC882c6ab97E4F9F82340651',
+    '0x90d93f5a390bfdbc401f92e916197ee17470a447',
+  	'0x2b79e11984514ece5b2db561f49c0466cc7659ea',
+  	'0x399257702f0f05ebec30c17b8888be1b2a321e36' 
+  )
+  AND CONTRACT_ADDRESS = '0x9c4a4204b79dd291d6b6571c5be8bbcd0622f050'
+  AND BALANCE_DATE >= CURRENT_DATE - interval'4 months'
+)
+  
+SELECT USER_ADDRESS, 'DAO' AS LABEL, BALANCE, BALANCE_DATE as DATE FROM accounts
+WHERE user_address = '0xa84918f3280d488eb3369cb713ec53ce386b6cba'
+UNION
+SELECT USER_ADDRESS, 'Growth Fund Multi-sig' AS LABEL, BALANCE, BALANCE_DATE as DATE FROM accounts
+WHERE user_address  = '0x1C315Ae20c758d8Dc9B56415566c82F9085478a8'
+UNION
+SELECT USER_ADDRESS, 'Mycelium Multi-sig' AS LABEL, BALANCE, BALANCE_DATE as DATE FROM accounts
+WHERE user_address  = '0xa6a006C12338cdcDbC882c6ab97E4F9F82340651'
+UNION
+SELECT USER_ADDRESS, 'Mycelium Vesting' AS LABEL, BALANCE, BALANCE_DATE as DATE FROM accounts
+WHERE user_address  = '0x90d93f5a390bfdbc401f92e916197ee17470a447'
+UNION
+SELECT USER_ADDRESS, 'The 100 Vesting' AS LABEL, BALANCE, BALANCE_DATE as DATE FROM accounts
+WHERE user_address  = '0x2b79e11984514ece5b2db561f49c0466cc7659ea'
+UNION
+SELECT USER_ADDRESS, '52 Governors Vesting' AS LABEL, BALANCE, BALANCE_DATE as DATE FROM accounts
+WHERE user_address  = '0x399257702f0f05ebec30c17b8888be1b2a321e36'
+ORDER BY DATE DESC
+          `,
         },
       },
     },
     {
       heading: "TCR distributions per day",
-      description: "Tracer DAO holds TCR token in various addresses.",
+      description: `User claims seem to start in the last part of Q2 2021, with the most TCR claimed in one day (to date) on Oct 23rd 2021 - over 2.7M TCR tokens. 
+        
+Before Q2 2021, we see a few 'claimTokens' transactions in Jan 2021 (see first graph) that may be administrative transactions or constitute a different type of claim.`,
       visual: {
         type: "AreaChart",
         endpoint:
-          "https://api.flipsidecrypto.com/api/v2/queries/092c26de-8a4f-403b-b877-9ac56f32fcc0/data/latest",
+          "https://api.flipsidecrypto.com/api/v2/queries/679c0b7f-dd80-4c2f-aa9f-c5ffc2658795/data/latest",
         dataMapping: {
           date: "DATE",
           value: "AMOUNT",
@@ -126,7 +189,7 @@ In this dashboard, we'll explore the distribution of Tracer's governance token t
         options: {
           axes: {
             bottom: {
-              title: "2019 Annual Sales Figures",
+              title: "Total TCR claimed by day",
               mapsTo: "date",
               scaleType: "time",
             },
@@ -153,49 +216,40 @@ In this dashboard, we'll explore the distribution of Tracer's governance token t
               {
                 type: "Reset zoom",
               },
+              {
+                type: "Make fullscreen",
+              },
+              {
+                type: "Export as CSV",
+              },
+              {
+                type: "Export as PNG",
+              },
+              {
+                type: "Export as JPG",
+              },
             ],
           },
           height: "60vh",
-          toolbar: {
-            enabled: true,
-            numberOfIcons: 6,
-            controls: [
-              {
-                type: "Zoom in",
-              },
-              {
-                type: "Zoom out",
-              },
-              {
-                type: "Reset zoom",
-              },
-            ],
-          },
           sql: `
-            WITH reward_withdraws as (
-              SELECT tx_id from ethereum.udm_events
-              WHERE EVENT_NAME = '0x365fb1c64489007fb28325f54a1decf6c676c016af7d4b46371e1fe2f073a757'
-              AND CONTRACT_ADDRESS = '0xa84918f3280d488eb3369cb713ec53ce386b6cba'
-            )
-
-            SELECT SUM(AMOUNT) as AMOUNT, date_trunc('day', BLOCK_TIMESTAMP) as DATE, 'UserWithdraw' as LABEL FROM reward_withdraws r
-            LEFT JOIN ethereum.udm_events u
-            ON r.TX_ID = u.TX_ID
-            WHERE FROM_ADDRESS = '0xa84918f3280d488eb3369cb713ec53ce386b6cba'
-            AND CONTRACT_ADDRESS = '0x9c4a4204b79dd291d6b6571c5be8bbcd0622f050'
-            AND EVENT_TYPE = 'erc20_transfer'
-            GROUP BY DATE, LABEL
-            ORDER BY DATE ASC`,
+SELECT SUM(AMOUNT) as AMOUNT, date_trunc('day', BLOCK_TIMESTAMP) as DATE, 'All Claims' AS LABEL
+FROM ethereum.udm_events
+WHERE CONTRACT_ADDRESS = '0x9c4a4204b79dd291d6b6571c5be8bbcd0622f050'
+AND ORIGIN_FUNCTION_NAME in ('claim', 'claimTokens')
+GROUP BY DATE, LABEL
+ORDER BY DATE ASC
+          `,
         },
       },
     },
     {
-      heading: "Proportion of DAO funds distributed as rewards",
-      description: "Tracer DAO holds TCR token in various addresses.",
+      heading: "Proportion of TCR distributed as rewards",
+      description:
+        "Looking at 'claim' and 'tokenClaims' transactions, how much TCR of the total supply (1,000,000,000 TCR) has been distributed this way?",
       visual: {
         type: "GaugeChart",
         endpoint:
-          "https://api.flipsidecrypto.com/api/v2/queries/e783479e-f17e-4c26-9dc7-d5bae5609bb9/data/latest",
+          "https://api.flipsidecrypto.com/api/v2/queries/ea792e06-62d6-466c-96a9-d33e8195d490/data/latest",
         dataMapping: {
           value: "AMOUNT",
           group: "LABEL",
@@ -207,20 +261,26 @@ In this dashboard, we'll explore the distribution of Tracer's governance token t
             type: "full",
             alignment: "center",
           },
-
+          toolbar: {
+            enabled: true,
+            numberOfIcons: 6,
+            controls: [
+              {
+                type: "Export as CSV",
+              },
+              {
+                type: "Export as PNG",
+              },
+              {
+                type: "Export as JPG",
+              },
+            ],
+          },
           sql: `
-WITH reward_withdraws as (
-  SELECT tx_id from ethereum.udm_events
-  WHERE EVENT_NAME = '0x365fb1c64489007fb28325f54a1decf6c676c016af7d4b46371e1fe2f073a757'
-  AND CONTRACT_ADDRESS = '0xa84918f3280d488eb3369cb713ec53ce386b6cba'
-)
-
-SELECT SUM(AMOUNT)*100/640400000 as AMOUNT, 'value' as LABEL FROM reward_withdraws r
-LEFT JOIN ethereum.udm_events u
-ON r.TX_ID = u.TX_ID
-WHERE FROM_ADDRESS = '0xa84918f3280d488eb3369cb713ec53ce386b6cba'
-AND CONTRACT_ADDRESS = '0x9c4a4204b79dd291d6b6571c5be8bbcd0622f050'
-AND EVENT_TYPE = 'erc20_transfer'`,
+SELECT (SUM(AMOUNT)*100)/1000000000 as AMOUNT, 'value' AS LABEL
+FROM ethereum.udm_events
+WHERE CONTRACT_ADDRESS = '0x9c4a4204b79dd291d6b6571c5be8bbcd0622f050'
+AND ORIGIN_FUNCTION_NAME in ('claim', 'claimTokens')`,
         },
       },
     },
@@ -228,12 +288,13 @@ AND EVENT_TYPE = 'erc20_transfer'`,
       heading: "Methodology",
       content: [
         {
-          heading: "Filtering for reward distributions",
-          body: "To find user TCR reward withdrawals (distributions), the specific event name (0x365fb1c64489007fb28325f54a1decf6c676c016af7d4b46371e1fe2f073a757) was used as a filter on ethereum.events_emitted",
+          heading: "Filtering for reward claims",
+          body: "To find user TCR reward claims, ethereum.udm_events was filtered for the TCR contract address (0x9C4A4204B79dd291D6b6571C5BE8BbcD0622F050). The ORIGIN_FUNCTION_NAME column was used to filter for 'claim' or 'claimTokens' events",
         },
         {
-          heading: "Finding reward amounts",
-          body: "The TX_ID of distribution transactions were used to join ethereum.udm_events to find the associated erc_20 transfer of TCR tokens and the transfer amount",
+          heading: "Tracer contracts",
+          body: "docs.tracer.finance/addresses/ethereum-mainnet",
+          href: "https://docs.tracer.finance/addresses/ethereum-mainnet",
         },
       ],
     },

@@ -1,5 +1,5 @@
 {
-  "name": "flipside-carbon-visualizer",
+  "name": "carbon-visualizer",
   "private": true,
   "scripts": {
     "dev": "next dev",

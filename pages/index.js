@@ -59,7 +59,9 @@ export default function Home({ visualizer }) {
                 <Row>
                   <Column sm={12} md={12} lg={4}>
                     <h2>{section.heading}</h2>
-                    <p style={{ marginTop: "1em" }}>{section.description}</p>
+                    <p style={{ marginTop: "1em", whiteSpace: "pre-wrap" }}>
+                      {section.description}
+                    </p>
                   </Column>
                   <Column sm={12} md={12} lg={8}>
                     {section.visual && <SwrChart {...section.visual} />}
