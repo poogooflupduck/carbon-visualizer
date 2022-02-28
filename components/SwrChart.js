@@ -1,5 +1,4 @@
 import { useState } from "react";
-import ReactDOM from "react-dom";
 import SwrData from "@/components/SwrData";
 import dynamic from "next/dynamic";
 import AreaSkeletonChart from "@/components/AreaSkeletonChart";
@@ -40,6 +39,7 @@ const SwrChart = (props) => {
                 Object.keys(props.dataMapping).map(
                   (key) => (entry[key] = entry[props.dataMapping[key]])
                 );
+                console.log(entry);
                 return {
                   ...entry,
                 };
