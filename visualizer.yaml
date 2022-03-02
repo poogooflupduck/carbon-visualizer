@@ -34,7 +34,7 @@ sections:
             scaleType: linear
         toolbar:
           enabled: true
-          numberOfIcons: 6
+          numberOfIcons: 4
           controls:
             - type: Zoom in
             - type: Zoom out
