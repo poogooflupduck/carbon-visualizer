@@ -42,7 +42,7 @@ export default function Home({ info, sections }) {
                       style={{ paddingTop: "4em" }}
                     ></Column>
                     <h1 style={{ fontWeight: "bold" }}>{info.title}</h1>
-                    <p style={{ marginTop: "1em" }}>{section.description}</p>
+                    <p style={{ marginTop: "1em", whiteSpace: "pre-line" }}>{section.description}</p>
                   </Column>
                   <Column
                     sm={12}
