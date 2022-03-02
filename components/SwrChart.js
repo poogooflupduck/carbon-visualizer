@@ -15,10 +15,9 @@ const SwrChart = (props) => {
 
   if (isLoading) return <AreaSkeletonChart height={props.options.height} />;
   if (isError) return <AreaSkeletonChart height={props.options.height} />;
-  console.log(data);
   return (
     <>
-      {props.options.sql && (
+      {props.sql && (
         <Modal
           open={sqlOpen}
           setOpen={setSqlOpen}
@@ -28,18 +27,17 @@ const SwrChart = (props) => {
           onRequestClose={() => setSqlOpen(false)}
         >
           <CodeSnippet type="multi" feedback="Copied to clipboard">
-            {props.options.sql.replace(/ +(?= )/g, "")}
+            {props.sql.replace(/ +(?= )/g, "")}
           </CodeSnippet>
         </Modal>
       )}
       <DynamicComponent
         data={
-          props.dataMapping
+          props.mapping
             ? data.map((entry) => {
-                Object.keys(props.dataMapping).map(
-                  (key) => (entry[key] = entry[props.dataMapping[key]])
+                Object.keys(props.mapping).map(
+                  (key) => (entry[key] = entry[props.mapping[key]])
                 );
-                console.log(entry);
                 return {
                   ...entry,
                 };
@@ -53,7 +51,7 @@ const SwrChart = (props) => {
             ? {
                 ...props.options.toolbar,
                 controls: [
-                  props.options.sql && {
+                  props.sql && {
                     type: "Custom",
                     clickFunction: () => {
                       setSqlOpen(true);
