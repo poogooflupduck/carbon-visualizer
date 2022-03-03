@@ -204,6 +204,6 @@ sections:
       - heading: Components from Carbon Components
         body: carbondesignsystem.com/components/overview
         href: "https://www.carbondesignsystem.com/components/overview/"
-      - heading: Built by github.com/karlxlee
-        body: github.com/karlxlee
-        href: "https://github.com/karlxlee/"
+      - heading: Built by Karl
+        body: github.com/karlxlee/carbon-visualizer
+        href: "https://github.com/karlxlee/carbon-visualizer"
