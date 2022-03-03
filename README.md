@@ -1,3 +1,21 @@
+# Carbon Visualizer
+
+A no-code, YAML-based way to create analytics dashboards.
+
+(Work-in-progress: expect breaking changes)
+
+## Stack
+
+- Carbon Charts
+- Carbon Components
+- SWR
+- Next.js
+- YAML
+
+## Demo
+
+Uses Flipside Crypto REST api data
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
