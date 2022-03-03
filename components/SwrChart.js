@@ -72,7 +72,15 @@ const SwrChart = (props) => {
                         '<path d="M8 9H4a2 2 0 0 0-2 2v12h2v-5h4v5h2V11a2 2 0 0 0-2-2Zm-4 7v-5h4v5ZM22 11h3v10h-3v2h8v-2h-3V11h3V9h-8v2zM14 23h-2V9h6a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-4Zm0-7h4v-5h-4Z"/><path data-name="&lt;Transparent Rectangle&gt;" style="fill:none" d="M0 0h32v32H0z"/>',
                     },
                   },
-                  ...props.options.toolbar.controls,
+                  ...(props.options.toolbar.controls || [
+                    { type: "Zoom in" },
+                    { type: "Zoom out" },
+                    { type: "Reset zoom" },
+                    { type: "Make fullscreen" },
+                    { type: "Export as CSV" },
+                    { type: "Export as PNG" },
+                    { type: "Export as JPG" },
+                  ]),
                 ],
               }
             : {},

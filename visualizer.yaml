@@ -35,14 +35,6 @@ sections:
         toolbar:
           enabled: true
           numberOfIcons: 4
-          controls:
-            - type: Zoom in
-            - type: Zoom out
-            - type: Reset zoom
-            - type: Make fullscreen
-            - type: Export as CSV
-            - type: Export as PNG
-            - type: Export as JPG
   - heading: Key questions
     content:
       - body: How much of the TCR supply has been distributed to users?
@@ -114,14 +106,6 @@ sections:
         toolbar:
           enabled: true
           numberOfIcons: 6
-          controls:
-            - type: Zoom in
-            - type: Zoom out
-            - type: Reset zoom
-            - type: Make fullscreen
-            - type: Export as CSV
-            - type: Export as PNG
-            - type: Export as JPG
         height: 60vh
   - heading: TCR distributions per day
     description: >-
@@ -161,14 +145,6 @@ sections:
         toolbar:
           enabled: true
           numberOfIcons: 6
-          controls:
-            - type: Zoom in
-            - type: Zoom out
-            - type: Reset zoom
-            - type: Make fullscreen
-            - type: Export as CSV
-            - type: Export as PNG
-            - type: Export as JPG
         height: 60vh
   - heading: Proportion of TCR distributed as rewards
     description: >-
@@ -194,10 +170,6 @@ sections:
         toolbar:
           enabled: true
           numberOfIcons: 6
-          controls:
-            - type: Export as CSV
-            - type: Export as PNG
-            - type: Export as JPG
   - heading: Key insights
     content:
       - heading: Launch excitement
