@@ -42,7 +42,13 @@ export default function Home({ info, sections }) {
                       style={{ paddingTop: "4em" }}
                     ></Column>
                     <h1 style={{ fontWeight: "bold" }}>{info.title}</h1>
-                    <p style={{ marginTop: "1em", whiteSpace: "pre-line" }}>
+                    <p
+                      style={{
+                        marginTop: "1em",
+                        whiteSpace: "pre-line",
+                        wordBreak: "break-word",
+                      }}
+                    >
                       {section.description}
                     </p>
                   </Column>
@@ -71,7 +77,13 @@ export default function Home({ info, sections }) {
                   <Row>
                     <Column sm={12} md={12} lg={4}>
                       <h2>{section.heading}</h2>
-                      <p style={{ marginTop: "1em", whiteSpace: "pre-line" }}>
+                      <p
+                        style={{
+                          marginTop: "1em",
+                          whiteSpace: "pre-line",
+                          wordBreak: "break-word",
+                        }}
+                      >
                         {section.description}
                       </p>
                     </Column>
