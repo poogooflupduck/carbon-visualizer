@@ -105,7 +105,7 @@ sections:
             enabled: true
         toolbar:
           enabled: true
-          numberOfIcons: 6
+          numberOfIcons: 8
         height: 60vh
   - heading: TCR distributions per day
     description: >-
@@ -144,7 +144,7 @@ sections:
             enabled: true
         toolbar:
           enabled: true
-          numberOfIcons: 6
+          numberOfIcons: 8
         height: 60vh
   - heading: Proportion of TCR distributed as rewards
     description: >-
@@ -169,7 +169,7 @@ sections:
           alignment: center
         toolbar:
           enabled: true
-          numberOfIcons: 6
+          numberOfIcons:
   - heading: Key insights
     content:
       - heading: Launch excitement
