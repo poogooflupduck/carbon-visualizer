@@ -204,6 +204,9 @@ sections:
       - heading: Components from Carbon Components
         body: carbondesignsystem.com/components/overview
         href: "https://www.carbondesignsystem.com/components/overview/"
-      - heading: Built by Karl
+      - heading: Built using carbon-visualizer
         body: github.com/karlxlee/carbon-visualizer
         href: "https://github.com/karlxlee/carbon-visualizer"
+      - heading: Made by [insert your name]
+        body: [insert your link]
+        href: ""
